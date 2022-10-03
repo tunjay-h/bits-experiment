@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>bits</title>
+    <link rel="stylesheet" href="./main.css" />
+  </head>
+  <body>
+    <h1>Bit Games</h1>
+    <select id="numberOfBoxes">
+      <option value="8">8-bit (1 byte) (byte)</option>
+      <option value="16">16-bit (2 byte) (short)</option>
+      <option value="32">32-bit (3 byte) (int)</option>
+      <option value="64">64-bit (4 byte) (long)</option>
+    </select>
+
+    <input id="firstNumber" type="number" placeholder="number" />
+    <span id="resultInPowersOf2"></span>
+    <div id="result">
+      <div style="display: flex">
+        <div class="number-box">1</div>
+        <div class="number-box">2</div>
+      </div>
+      <div style="display: flex">
+        <div class="number-box">1</div>
+        <div class="number-box">2</div>
+      </div>
+    </div>
+
+    <div id="bitBoxes">
+    </div>
+  </body>
+
+  <!-- DOM purify to sanitize inputs-->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js" integrity="sha512-/hVAZO5POxCKdZMSLefw30xEVwjm94PAV9ynjskGbIpBvHO9EBplEcdUlBdCKutpZsF+La8Ag4gNrG0gAOn3Ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+  <script type="text/javascript" src="./main.js"></script>
+</html>
