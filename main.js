@@ -60,13 +60,18 @@ const bitBoxComponent = (number) => {
 };
 
 // pure
-const allBitBoxesComponent = (numbers) => {
+const pairBitBoxComponent = (first, second) => {
+  return `<div>${bitBoxComponent(first)} ${bitBoxComponent(second)}</div>`;
+};
+
+// pure
+const allBitBoxesComponent = (firstNumBits, secondNumBits) => {
   let divBody = "";
-  numbers.map((elem, index) => {
+  firstNumBits.map((elem, index) => {
     if (index % 8 === 0) {
       divBody += `<div style='width: 30px; height: 30px;'></div>`;
     }
-    divBody += bitBoxComponent(elem);
+    divBody += pairBitBoxComponent(elem, secondNumBits[index]);
   });
   return `<div style='display: flex;'>${divBody}</div>`;
 };
@@ -135,18 +140,31 @@ const allBitBoxesComponent = (numbers) => {
   });
   
 
-  const renderAllBitBoxes = (number, boxCount) => {
-    let data = convertDecimalToBinary(number, boxCount); //  1 0 1 0 0
+  const renderAllBitBoxes = (firstNum, secondNum, boxCount) => {
+    let firstNumBits = convertDecimalToBinary(firstNum, boxCount); //  1 0 1 0 0
+    let secondNumBits = convertDecimalToBinary(secondNum, boxCount); //   1 0 0
 
-    if (data.length <= boxCount) {
-      let initialLength = data.length;
+    // padding first number bits
+    if (firstNumBits.length <= boxCount) {
+      let initialLength = firstNumBits.length;
       for (let index = 0; index < boxCount - initialLength; index++) {
-        data.unshift(0); // insert at the beginning
+        firstNumBits.unshift(0); // insert at the beginning
       }
     } else {
-      data.splice(0, data.length - boxCount); // remove from beginning
+      firstNumBits.splice(0, firstNumBits.length - boxCount); // remove from beginning
     }
-    let renderBitBoxes = allBitBoxesComponent(data);
+
+    // padding second number bits
+    if (secondNumBits.length <= boxCount) {
+      let initialLength = secondNumBits.length;
+      for (let index = 0; index < boxCount - initialLength; index++) {
+        secondNumBits.unshift(0); // insert at the beginning
+      }
+    } else {
+      secondNumBits.splice(0, secondNumBits.length - boxCount); // remove from beginning
+    }
+
+    let renderBitBoxes = allBitBoxesComponent(firstNumBits, secondNumBits);
 
     return renderBitBoxes;
   };
@@ -157,7 +175,21 @@ const allBitBoxesComponent = (numbers) => {
     if (event.target.value) {
       let bitCount = numberOfBoxes.value; // 8-bit  =>  0 0 0 1 0 1 0 0
 
-      let renderBitBoxes = renderAllBitBoxes(event.target.value, bitCount);
+      let renderBitBoxes = renderAllBitBoxes(event.target.value, secondNumber.value, bitCount);
+
+      document.getElementById("bitBoxes").innerHTML = renderBitBoxes;
+    } else {
+      document.getElementById("bitBoxes").innerHTML = "";
+    }
+  });
+
+  // update bit boxes
+  secondNumber.addEventListener("input", (event) => {
+    // secondNumber.value
+    if (event.target.value) {
+      let bitCount = numberOfBoxes.value; // 8-bit  =>  0 0 0 1 0 1 0 0
+
+      let renderBitBoxes = renderAllBitBoxes(firstNumber.value, event.target.value, bitCount);
 
       document.getElementById("bitBoxes").innerHTML = renderBitBoxes;
     } else {
@@ -173,15 +205,24 @@ const allBitBoxesComponent = (numbers) => {
       ...convertDecimalToBinaryPowers(firstNumber.value, bitCount),
     ].join(" + ")}`;
 
-    // second one todo
+    sumAsPowersOf2_second.innerText = `= ${[
+      ...convertDecimalToBinaryPowers(secondNumber.value, bitCount),
+    ].join(" + ")}`;
 
     let [renderResult, renderIndices] = renderNumbersOf2(
       firstNumber.value,
       bitCount
     );
-    document.getElementById("result").innerHTML = renderResult + renderIndices;
+    document.getElementById("result_first").innerHTML = renderResult + renderIndices;
 
-    let renderBitBoxes = renderAllBitBoxes(firstNumber.value, bitCount);
+    [renderResult, renderIndices] = renderNumbersOf2(
+      secondNumber.value,
+      bitCount
+    );
+    document.getElementById("result_second").innerHTML = renderResult + renderIndices;
+
+    
+    let renderBitBoxes = renderAllBitBoxes(firstNumber.value, secondNumber.value, bitCount);
     document.getElementById("bitBoxes").innerHTML = renderBitBoxes;
   });
 })();
