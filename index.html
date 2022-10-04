@@ -13,21 +13,38 @@
       <option value="64">64-bit (4 byte) (long)</option>
     </select>
 
-    <input id="firstNumber" type="number" placeholder="number" />
-    <span id="resultInPowersOf2"></span>
-    <div id="result">
-      <div style="display: flex">
-        <div class="number-box">1</div>
-        <div class="number-box">2</div>
+    <div>
+      <div>
+        <input id="firstNumber" type="number" placeholder="first number" />
+        <span id="sumAsPowersOf2_first"></span>
+
+        <div id="result_first"></div>
       </div>
-      <div style="display: flex">
-        <div class="number-box">1</div>
-        <div class="number-box">2</div>
+
+      <div>
+        <div>
+          <input type="radio" id="op_and" name="operator" value="AND" />
+          <label for="op_and">& AND</label>
+        </div>
+        <div>
+          <input type="radio" id="op_or" name="operator" value="OR" />
+          <label for="op_or">| OR</label>
+        </div>
+        <div>
+          <input type="radio" id="op_xor" name="operator" value="XOR" />
+          <label for="op_xor">^ XOR</label>
+        </div>
+      </div>
+
+      <div>
+        <input id="secondNumber" type="number" placeholder="second number" />
+        <span id="sumAsPowersOf2_second"></span>
+
+        <div id="result_second"></div>
       </div>
     </div>
 
-    <div id="bitBoxes">
-    </div>
+    <div id="bitBoxes"></div>
   </body>
 
   <!-- DOM purify to sanitize inputs-->
