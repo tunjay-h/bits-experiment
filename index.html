@@ -5,52 +5,69 @@
     <link rel="stylesheet" href="./main.css" />
   </head>
   <body>
-    <h1>Bit Games</h1>
-    <select id="numberOfBoxes">
-      <option value="8">8-bit (1 byte) (byte)</option>
-      <option value="16">16-bit (2 byte) (short)</option>
-      <option value="32">32-bit (3 byte) (int)</option>
-      <option value="64">64-bit (4 byte) (long)</option>
-    </select>
+    <div
+      id="container"
+      style="
+        height: 75vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <h1 style="font-family: monospace;">Bit Games</h1>
+      <select id="numberOfBoxes" style="border: 1px solid #008eff; border-radius: 4px; padding: 10px;">
+        <option value="8">8-bit (1 byte) (byte)</option>
+        <option value="16">16-bit (2 byte) (short)</option>
+        <option value="32">32-bit (3 byte) (int)</option>
+        <option value="64">64-bit (4 byte) (long)</option>
+      </select>
 
-    <div>
       <div>
-        <input id="firstNumber" type="number" placeholder="first number" />
-        <span id="sumAsPowersOf2_first"></span>
+        <div>
+          <input id="firstNumber" type="number" placeholder="first number" style="border: 1px solid #008eff; border-radius: 4px; padding: 10px;" />
+          <span id="sumAsPowersOf2_first"></span>
 
-        <div id="result_first"></div>
+          <div id="result_first"></div>
+        </div>
+
+        <div style="margin: 10px 0; border: 1px dashed black; border-radius: 10px;">
+          <div>
+            <input type="radio" id="op_and" name="operator" value="&" checked/>
+            <label for="op_and">& AND</label>
+          </div>
+          <div>
+            <input type="radio" id="op_or" name="operator" value="|" />
+            <label for="op_or">| OR</label>
+          </div>
+          <div>
+            <input type="radio" id="op_xor" name="operator" value="^" />
+            <label for="op_xor">^ XOR</label>
+          </div>
+        </div>
+
+        <div>
+          <input id="secondNumber" type="number" placeholder="second number" style="border: 1px solid #008eff; border-radius: 4px; padding: 10px;" />
+          <span id="sumAsPowersOf2_second"></span>
+
+          <div id="result_second"></div>
+        </div>
       </div>
 
-      <div>
-        <div>
-          <input type="radio" id="op_and" name="operator" value="AND" />
-          <label for="op_and">& AND</label>
-        </div>
-        <div>
-          <input type="radio" id="op_or" name="operator" value="OR" />
-          <label for="op_or">| OR</label>
-        </div>
-        <div>
-          <input type="radio" id="op_xor" name="operator" value="XOR" />
-          <label for="op_xor">^ XOR</label>
-        </div>
-      </div>
-
-      <div>
-        <input id="secondNumber" type="number" placeholder="second number" />
-        <span id="sumAsPowersOf2_second"></span>
-
-        <div id="result_second"></div>
+      <div
+        id="bitBoxes"
+        style="
+          border: 1px dashed black;
+          border-radius: 10px;
+        "
+      >
+        <div id="firstNumberBits"></div>
+        <div id="secondNumberBits"></div>
       </div>
     </div>
 
-    <div id="bitBoxes" style="border: 1px dashed black; border-radius: 10px; min-height: 5rem;">
-      <div id="firstNumberBits"></div>
-      <div id="secondNumberBits"></div>
-    </div>
+    <!-- DOM purify to sanitize inputs-->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js" integrity="sha512-/hVAZO5POxCKdZMSLefw30xEVwjm94PAV9ynjskGbIpBvHO9EBplEcdUlBdCKutpZsF+La8Ag4gNrG0gAOn3Ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+    <script type="text/javascript" src="./main.js"></script>
   </body>
-
-  <!-- DOM purify to sanitize inputs-->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js" integrity="sha512-/hVAZO5POxCKdZMSLefw30xEVwjm94PAV9ynjskGbIpBvHO9EBplEcdUlBdCKutpZsF+La8Ag4gNrG0gAOn3Ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-  <script type="text/javascript" src="./main.js"></script>
 </html>

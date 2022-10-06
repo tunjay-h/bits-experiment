@@ -1,5 +1,5 @@
 // Pure function - no dom query, no dom manipulation
-// same result if same inputs are passed 
+// same result if same inputs are passed
 function convertDecimalToBinary(number, bitCount) {
   let bits = [];
   let isNegative = number < 0;
@@ -42,7 +42,7 @@ function convertDecimalToBinaryPowers(number, bitCount) {
 // pure
 const numberBoxComponent = (number) => {
   // let div = document.createElement("div");
-  return `<div style='min-width: 3rem; height: 3rem; border: 1px solid black; border-radius: 0.25rem; margin: 2px 2px;'>${number}</div>`;
+  return `<div style='min-width: 3rem; height: 3rem; border: 1px solid #008eff; border-radius: 10px; margin: 2px 2px;'>${number}</div>`;
 };
 
 // pure
@@ -51,27 +51,47 @@ const numbersOf2Component = (numbers) => {
   numbers.map((elem, index) => {
     divBody += numberBoxComponent(elem);
   });
-  return `<div style='display: flex;'>${divBody}</div>`;
+  return `<div style='display: flex; padding: 10px;'>${divBody}</div>`;
 };
 
 // pure
-const bitBoxComponent = (number) => {
-  return `<div><input type='number' placeholder='0' style='width: 30px; height: 30px;' value='${number}' /></div>`;
+const bitBoxComponent = (number, divStyle) => {
+  return `<div ${divStyle}><input type='number' placeholder='0' style='width: 30px; height: 30px;' value='${number}' disabled /></div>`;
 };
 
 // pure
-const pairBitBoxComponent = (first, second) => {
-  return `<div>${bitBoxComponent(first)} ${bitBoxComponent(second)}</div>`;
+const pairBitBoxComponent = (first, second, bitOperator) => {
+  let bitResult = 0;
+  switch (bitOperator) {
+    case "&":
+      bitResult = first & second;
+      break;
+    case "|":
+      bitResult = first | second;
+      break;
+    case "^":
+      bitResult = first ^ second;
+      break;
+    default:
+      break;
+  }
+  return `<div>
+              ${bitBoxComponent(first)} 
+              <div style=" display: flex; justify-content: center; align-items: center; height: 30px; font-weight: bold;">${bitOperator}</div> 
+              ${bitBoxComponent(second)}
+              <div style=" display: flex; justify-content: center; align-items: center; height: 30px; ">=</div> 
+              ${bitBoxComponent(bitResult, `style="background-color: #98ff98;"`)}
+            </div>`;
 };
 
 // pure
-const allBitBoxesComponent = (firstNumBits, secondNumBits) => {
+const allBitBoxesComponent = (firstNumBits, secondNumBits, bitOperator) => {
   let divBody = "";
   firstNumBits.map((elem, index) => {
     if (index % 8 === 0) {
       divBody += `<div style='width: 30px; height: 30px;'></div>`;
     }
-    divBody += pairBitBoxComponent(elem, secondNumBits[index]);
+    divBody += pairBitBoxComponent(elem, secondNumBits[index], bitOperator);
   });
   return `<div style='display: flex;'>${divBody}</div>`;
 };
@@ -81,7 +101,9 @@ const allBitBoxesComponent = (firstNumBits, secondNumBits) => {
   const firstNumber = document.getElementById("firstNumber");
   const sumAsPowersOf2_first = document.getElementById("sumAsPowersOf2_first");
   const secondNumber = document.getElementById("secondNumber");
-  const sumAsPowersOf2_second = document.getElementById("sumAsPowersOf2_second");
+  const sumAsPowersOf2_second = document.getElementById(
+    "sumAsPowersOf2_second"
+  );
 
   const numberOfBoxes = document.getElementById("numberOfBoxes");
 
@@ -138,9 +160,8 @@ const allBitBoxesComponent = (firstNumBits, secondNumBits) => {
       document.getElementById("result_second").innerHTML = "";
     }
   });
-  
 
-  const renderAllBitBoxes = (firstNum, secondNum, boxCount) => {
+  const renderAllBitBoxes = (firstNum, secondNum, boxCount, bitOperator) => {
     let firstNumBits = convertDecimalToBinary(firstNum, boxCount); //  1 0 1 0 0
     let secondNumBits = convertDecimalToBinary(secondNum, boxCount); //   1 0 0
 
@@ -164,7 +185,7 @@ const allBitBoxesComponent = (firstNumBits, secondNumBits) => {
       secondNumBits.splice(0, secondNumBits.length - boxCount); // remove from beginning
     }
 
-    let renderBitBoxes = allBitBoxesComponent(firstNumBits, secondNumBits);
+    let renderBitBoxes = allBitBoxesComponent(firstNumBits, secondNumBits, bitOperator);
 
     return renderBitBoxes;
   };
@@ -175,7 +196,12 @@ const allBitBoxesComponent = (firstNumBits, secondNumBits) => {
     if (event.target.value) {
       let bitCount = numberOfBoxes.value; // 8-bit  =>  0 0 0 1 0 1 0 0
 
-      let renderBitBoxes = renderAllBitBoxes(event.target.value, secondNumber.value, bitCount);
+      let renderBitBoxes = renderAllBitBoxes(
+        event.target.value,
+        secondNumber.value,
+        bitCount,
+        document.querySelector('input[name="operator"]:checked').value
+      );
 
       document.getElementById("bitBoxes").innerHTML = renderBitBoxes;
     } else {
@@ -189,7 +215,12 @@ const allBitBoxesComponent = (firstNumBits, secondNumBits) => {
     if (event.target.value) {
       let bitCount = numberOfBoxes.value; // 8-bit  =>  0 0 0 1 0 1 0 0
 
-      let renderBitBoxes = renderAllBitBoxes(firstNumber.value, event.target.value, bitCount);
+      let renderBitBoxes = renderAllBitBoxes(
+        firstNumber.value,
+        event.target.value,
+        bitCount,
+        document.querySelector('input[name="operator"]:checked').value
+      );
 
       document.getElementById("bitBoxes").innerHTML = renderBitBoxes;
     } else {
@@ -197,10 +228,10 @@ const allBitBoxesComponent = (firstNumBits, secondNumBits) => {
     }
   });
 
-  // update all results
+  // update all results based on bit count
   numberOfBoxes.addEventListener("change", (event) => {
     let bitCount = event.target.value;
-    
+
     sumAsPowersOf2_first.innerText = `= ${[
       ...convertDecimalToBinaryPowers(firstNumber.value, bitCount),
     ].join(" + ")}`;
@@ -213,16 +244,38 @@ const allBitBoxesComponent = (firstNumBits, secondNumBits) => {
       firstNumber.value,
       bitCount
     );
-    document.getElementById("result_first").innerHTML = renderResult + renderIndices;
+    document.getElementById("result_first").innerHTML =
+      renderResult + renderIndices;
 
     [renderResult, renderIndices] = renderNumbersOf2(
       secondNumber.value,
       bitCount
     );
-    document.getElementById("result_second").innerHTML = renderResult + renderIndices;
+    document.getElementById("result_second").innerHTML =
+      renderResult + renderIndices;
 
-    
-    let renderBitBoxes = renderAllBitBoxes(firstNumber.value, secondNumber.value, bitCount);
+    let renderBitBoxes = renderAllBitBoxes(
+      firstNumber.value,
+      secondNumber.value,
+      bitCount,
+      document.querySelector('input[name="operator"]:checked').value
+    );
     document.getElementById("bitBoxes").innerHTML = renderBitBoxes;
   });
+
+  // update results based on operator
+  document.querySelectorAll('input[name="operator"]').forEach((radioButton) => {
+    radioButton.addEventListener("change", function(event) {
+      let bitOperator = event.target.value;
+
+      let renderBitBoxes = renderAllBitBoxes(
+        firstNumber.value,
+        secondNumber.value,
+        numberOfBoxes.value,
+        bitOperator
+      );
+      document.getElementById("bitBoxes").innerHTML = renderBitBoxes;
+    });
+  });
+
 })();
