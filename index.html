@@ -4,7 +4,12 @@
     <title>bits</title>
     <link rel="stylesheet" href="./main.css" />
   </head>
-  <body>
+  <body style="margin: 0">
+    <nav style="display: flex; justify-content: center; margin: 4px 0px;">
+      <div class="nav-link"><a href="./index.html">Bits</a></div>
+      <div class="nav-link"><a href="./shifts/shifts.html">Shifts</a></div> 
+      <div class="nav-link"><a href="http://jirtdan.org/">Jirtdan.org (Logic Gates simulator by Adil Aliyev)</a></div>
+    </nav>
     <div
       id="container"
       style="
@@ -15,25 +20,35 @@
         align-items: center;
       "
     >
-      <h1 style="font-family: monospace;">Bit Games</h1>
-      <select id="numberOfBoxes" style="border: 1px solid #008eff; border-radius: 4px; padding: 10px;">
+      <h1 style="font-family: monospace">Bit Games</h1>
+      <select
+        id="numberOfBoxes"
+        style="border: 1px solid #008eff; border-radius: 4px; padding: 10px"
+      >
         <option value="8">8-bit (1 byte) (byte)</option>
         <option value="16">16-bit (2 byte) (short)</option>
-        <option value="32">32-bit (3 byte) (int)</option>
-        <option value="64">64-bit (4 byte) (long)</option>
+        <option value="32">32-bit (4 byte) (int)</option>
+        <option value="64">64-bit (8 byte) (long)</option>
       </select>
 
       <div>
         <div>
-          <input id="firstNumber" type="number" placeholder="first number" style="border: 1px solid #008eff; border-radius: 4px; padding: 10px;" />
+          <input
+            id="firstNumber"
+            type="number"
+            placeholder="first number"
+            style="border: 1px solid #008eff; border-radius: 4px; padding: 10px"
+          />
           <span id="sumAsPowersOf2_first"></span>
 
           <div id="result_first"></div>
         </div>
 
-        <div style="margin: 10px 0; border: 1px dashed black; border-radius: 10px;">
+        <div
+          style="margin: 10px 0; border: 1px dashed black; border-radius: 10px"
+        >
           <div>
-            <input type="radio" id="op_and" name="operator" value="&" checked/>
+            <input type="radio" id="op_and" name="operator" value="&" checked />
             <label for="op_and">& AND</label>
           </div>
           <div>
@@ -47,20 +62,19 @@
         </div>
 
         <div>
-          <input id="secondNumber" type="number" placeholder="second number" style="border: 1px solid #008eff; border-radius: 4px; padding: 10px;" />
+          <input
+            id="secondNumber"
+            type="number"
+            placeholder="second number"
+            style="border: 1px solid #008eff; border-radius: 4px; padding: 10px"
+          />
           <span id="sumAsPowersOf2_second"></span>
 
           <div id="result_second"></div>
         </div>
       </div>
 
-      <div
-        id="bitBoxes"
-        style="
-          border: 1px dashed black;
-          border-radius: 10px;
-        "
-      >
+      <div id="bitBoxes" style="border: 1px dashed black; border-radius: 10px">
         <div id="firstNumberBits"></div>
         <div id="secondNumberBits"></div>
       </div>
@@ -68,6 +82,7 @@
 
     <!-- DOM purify to sanitize inputs-->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js" integrity="sha512-/hVAZO5POxCKdZMSLefw30xEVwjm94PAV9ynjskGbIpBvHO9EBplEcdUlBdCKutpZsF+La8Ag4gNrG0gAOn3Ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-    <script type="text/javascript" src="./main.js"></script>
+    <!-- <script type="text/javascript" src="./common.js"></script> -->
+    <script type="module" src="./main.js"></script>
   </body>
 </html>
